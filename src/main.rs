@@ -16,7 +16,7 @@ fn generate(length: u64, special: bool) {
     }
 
     let mut result = String::from("");
-    for i in 0..length {
+    for _ in 0..length {
         let idx = rng.gen_range(0..chars.len());
         let pick = chars.chars().nth(idx).unwrap();
         result.push(pick);
