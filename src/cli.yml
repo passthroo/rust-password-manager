@@ -2,16 +2,18 @@ name: rust-password-manager
 version: "0.1.0"
 author: Conner D <bvnqy89gb9jp345b4q@protonmail.com>
 about: Manages passwords
+settings:
+  - SubcommandRequiredElseHelp
 subcommands:
-    - generate:
-        about: Generates secure passwords
-        args:
-            - length:
-                short: -l
-                long: --length
-                help: Number of characters
-                takes_value: true
-            - special:
-                short: -s
-                long: -special
-                help: Enable special characters
+  - generate:
+      about: Generates secure passwords
+      args:
+        - length:
+            short: -l
+            long: --length
+            help: Number of characters
+            takes_value: true
+        - special:
+            short: -s
+            long: -special
+            help: Enable special characters
