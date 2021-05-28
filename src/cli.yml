@@ -6,10 +6,6 @@ subcommands:
     - generate:
         about: Generates secure passwords
         args:
-            - alpha:
-                short: -a
-                long: --alpha
-                help: Disable alphanumeric characters
             - length:
                 short: -l
                 long: --length

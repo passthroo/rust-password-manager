@@ -8,4 +8,6 @@ edition = "2018"
 
 [dependencies]
 clap = {version = "2.33.3", features = ["yaml"]}
+rand = "0.8.3"
+rand_chacha = "0.3.0"
 quit = "1.1.3"
