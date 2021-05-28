@@ -1,0 +1,21 @@
+name: rust-password-manager
+version: "0.1.0"
+author: Conner D <bvnqy89gb9jp345b4q@protonmail.com>
+about: Manages passwords
+subcommands:
+    - generate:
+        about: Generates secure passwords
+        args:
+            - alpha:
+                short: -a
+                long: --alpha
+                help: Disable alphanumeric characters
+            - length:
+                short: -l
+                long: --length
+                help: Number of characters
+                takes_value: true
+            - special:
+                short: -s
+                long: -special
+                help: Enable special characters
