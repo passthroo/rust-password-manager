@@ -11,7 +11,7 @@ subcommands:
         - length:
             short: -L
             long: --length
-            help: <length> number of characters
+            help: Number of characters (max 256)
             takes_value: true
         - lower:
             short: -l

@@ -2,6 +2,7 @@ use rand::prelude::*;
 use rand_chacha::ChaCha20Rng;
 
 pub static DEFAULT_LENGTH: usize = 20;
+pub static MAX_LENGTH: usize = 256;
 
 static CHARS_LOWER: &str = "abcdefghijklmnopqrstuvwxyz";
 static CHARS_UPPER: &str = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
@@ -17,23 +18,26 @@ pub struct Generator {
 }
 
 pub fn generate(length: Option<&str>, lower: bool, upper: bool, numeric: bool, special: bool) -> String {
-    let length = match length {
-        Some(x) => x.parse().unwrap(),
-        None    => DEFAULT_LENGTH,
+    let length: usize = match length {
+        Some(x) => {
+            let result: i32 = x.parse().unwrap();
+            if result <= 0 || result as usize > MAX_LENGTH {
+                DEFAULT_LENGTH
+            } else {
+                result as usize
+            }
+        }
+        None => DEFAULT_LENGTH,
     };
-    let default = length == DEFAULT_LENGTH && !(lower || upper || numeric || special);
-    let lower = if default { true } else { lower };
-    let upper = if default { true } else { upper };
-    let numeric = if default { true } else { numeric };
-    let special = if default { true } else { special };
-    let generator = Generator { 
-        length: length,
-        upper: upper,
-        lower: lower,
-        numeric: numeric,
-        special: special,
+    let default = !(lower || upper || numeric || special);
+    let generator = Generator {
+        length,
+        lower: if default { true } else { lower },
+        upper: if default { true } else { upper },
+        numeric: if default { true } else { numeric },
+        special: if default { true } else { special },
     };
-    return generate_nonsense(generator);
+    generate_nonsense(generator)
 }
 
 fn generate_nonsense(generator: Generator) -> String {
@@ -59,21 +63,39 @@ fn generate_nonsense(generator: Generator) -> String {
         let pick = chars.chars().nth(random_idx).unwrap();
         result.push(pick);
     }
-    
-    return result;
-}
 
-fn generate_mnemonic(generator: Generator) -> String {
-    
+    result
 }
 
 mod tests {
+    #[allow(unused_imports)]
     use super::*;
+
+    #[test]
+    fn generate_negative_length() {
+        let length = -9_999;
+        let result = generate(Some(&length.to_string()), true, true, true, true);
+        assert_eq!(result.len(), DEFAULT_LENGTH);
+    }
+
+    #[test]
+    fn generate_absurdly_large_length() {
+        let length = 2_000_000_000;
+        let result = generate(Some(&length.to_string()), true, true, true, true);
+        assert_eq!(result.len(), DEFAULT_LENGTH);
+    }
 
     #[test]
     fn generate_default_length() {
         let result = generate(None, true, true, true, true);
         assert_eq!(result.len(), DEFAULT_LENGTH);
+    }
+    
+    #[test]
+    fn generate_only_length() {
+        let length = MAX_LENGTH - 10;
+        let result = generate(Some(&length.to_string()), false, false, false, false);
+        assert_eq!(result.len(), length);
     }
 
     #[test]
@@ -105,10 +127,5 @@ mod tests {
     fn generate_special() {
         let result = generate(None, false, false, false, true);
         assert!(result.chars().all(|x| String::from(CHARS_SPECIAL).contains(x)))
-    }
-
-    #[test]
-    fn generate_mnemonic() {
-        //TODO
     }
 }
