@@ -9,11 +9,23 @@ subcommands:
       about: Generates secure passwords
       args:
         - length:
-            short: -l
+            short: -L
             long: --length
-            help: Number of characters
+            help: <length> number of characters
             takes_value: true
+        - lower:
+            short: -l
+            long: --lower
+            help: Use lower case letters
+        - upper:
+            short: -u
+            long: --upper
+            help: Use upper case letters
+        - numeric:
+            short: -n
+            long: --numeric
+            help: Use numbers
         - special:
             short: -s
-            long: -special
-            help: Enable special characters
+            long: --special
+            help: Use special characters
