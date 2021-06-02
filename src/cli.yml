@@ -17,6 +17,10 @@ subcommands:
             short: -l
             long: --lower
             help: Use lower case letters
+        - mnemonic:
+            short: -m
+            long: --mnemonic
+            help: Use words, or a mix of words and some other characters with -n or -s.
         - upper:
             short: -u
             long: --upper

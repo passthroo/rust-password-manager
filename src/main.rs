@@ -13,7 +13,8 @@ fn main() {
         let upper = matches.is_present("upper");
         let numeric = matches.is_present("numeric");
         let special = matches.is_present("special");
-        let result = generate::generate(length, lower, upper, numeric, special);
+        let mnemonic = matches.is_present("mnemonic");
+        let result = generate::generate(length, lower, upper, numeric, special, mnemonic);
         println!("{}", result);
     }
 }
